@@ -23,6 +23,7 @@ set(PROJECT_MAIN "${CMAKE_CURRENT_SOURCE_DIR}/src/main.cpp")
 set(PROJECT_SOURCES
   "${CMAKE_CURRENT_SOURCE_DIR}/src/emu/chip8/display.cpp"
   "${CMAKE_CURRENT_SOURCE_DIR}/src/emu/chip8/emulator.cpp"
+  "${CMAKE_CURRENT_SOURCE_DIR}/src/emu/chip8/input.cpp"
   "${CMAKE_CURRENT_SOURCE_DIR}/src/emu/chip8/machine.cpp"
   "${CMAKE_CURRENT_SOURCE_DIR}/src/util/configuration.cpp"
   "${CMAKE_CURRENT_SOURCE_DIR}/src/util/debug.cpp"
@@ -36,12 +37,13 @@ find_package(Threads)
 find_package(fmt 5.3.0 REQUIRED)
 find_package(Boost 1.70 COMPONENTS program_options REQUIRED)
 find_package(spdlog REQUIRED)
+find_package(SDL2 REQUIRED)
 
 target_link_libraries(emulatorslib PRIVATE ${CMAKE_THREAD_LIBS_INIT})
 target_link_libraries(emulatorslib PRIVATE fmt::fmt)
 target_link_libraries(emulatorslib PRIVATE spdlog::spdlog)
 target_link_libraries(emulatorslib PRIVATE ${Boost_LIBRARIES})
-# target_link_libraries(emulatorslib PRIVATE stdc++fs)
+target_link_libraries(emulatorslib PRIVATE SDL2::SDL2)
 
 add_executable(emulators ${PROJECT_MAIN})
 target_link_libraries(emulators PRIVATE emulatorslib)

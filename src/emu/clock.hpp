@@ -37,7 +37,7 @@ struct Clock
   using SysClock = std::chrono::system_clock;
   using Timepoint = std::chrono::time_point<SysClock>;
 
-  explicit Clock(Frequency f) : freq(f)
+  explicit Clock(Frequency f, std::string const& name) : freq(f), name(name)
   {
     reset();
   }
@@ -65,7 +65,7 @@ struct Clock
     {
       auto runtime = std::chrono::duration_cast<std::chrono::duration<double>>(last - start);
       double freq = ticks / runtime.count();
-      logging::debug("Done {} ticks in {} seconds (freq is {}Hz)", ticks, runtime.count(), freq);
+      logging::debug("[{}] done {} ticks in {} seconds (freq is {}Hz)", name, ticks, runtime.count(), freq);
     }
   }
 
@@ -80,5 +80,6 @@ private:
   Timepoint last;
   Timepoint start;
   std::size_t ticks;
+  std::string const name;
 };
 }  // namespace emu

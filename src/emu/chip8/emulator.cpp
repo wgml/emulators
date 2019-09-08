@@ -10,7 +10,7 @@ Emulator::Emulator(Ptr<Display> display, Ptr<Input> input, Ptr<Clock> clock, Pro
 int Emulator::operator()(bool sanitize)
 {
   clock->reset();
-  while (true)
+  while (!stopFlag)
   {
     clock->tick();
 
@@ -25,6 +25,8 @@ int Emulator::operator()(bool sanitize)
 
     machine.input(input);
   }
+
+  logging::info("Emulation stopped after {} frames.", clock->ticksFromStart());
   return 0;
 }
 

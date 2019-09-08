@@ -30,8 +30,10 @@ void Machine::reset(emu::Program const& program)
   logging::debug("Program is: \n{}", debug::dump_memory(program.content.data(), program.size()));
 }
 
-void Machine::input(Ptr<Input>)
-{}
+void Machine::input(Ptr<Input> input)
+{
+  input->update(this->key);
+}
 
 bool Machine::cycle(bool sanitize)
 {
@@ -97,8 +99,7 @@ bool Machine::execute(uint16_t opcode)
           clearDisplay();
           break;
         case 0x00EE:
-          pc = stack[sp];
-          --sp;
+          pc = stack[--sp];
           break;
         default:
           break;
@@ -343,7 +344,7 @@ bool Machine::execute(uint16_t opcode)
 
           break;
         }
-        case 0x07:
+        case 0xA1:
         {
           if (!key[V[x]])
             pc += 2;
