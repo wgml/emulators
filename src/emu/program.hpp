@@ -1,11 +1,8 @@
 #pragma once
-#include "util/log.hpp"
 
-#include <algorithm>
-#include <filesystem>
-#include <fstream>
-#include <iterator>
-#include <stdexcept>
+#include <cstddef>
+#include <string>
+#include <vector>
 
 namespace emu {
 struct Program
@@ -16,6 +13,7 @@ struct Program
   {
     return std::begin(content);
   }
+
   auto end() const
   {
     return std::end(content);
@@ -26,15 +24,6 @@ struct Program
     return std::size(content);
   }
 
-  static Program read(std::string const& filename)
-  {
-    logging::debug("Reading content of {}", filename);
-    if (!std::filesystem::exists(filename))
-      throw std::logic_error("Input file does not exist");
-
-    std::ifstream in(filename, std::ios::binary);
-
-    return Program{std::vector<uint8_t>(std::istreambuf_iterator<char>(in), {})};
-  }
+  static Program read(std::string const& filename);
 };
 }  // namespace emu

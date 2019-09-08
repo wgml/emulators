@@ -1,7 +1,6 @@
 #include "emu/chip8/machine.hpp"
 
-#include "emu/chip8/input.hpp"
-#include "emu/clock.hpp"
+#include "emu/clock/clock.hpp"
 #include "emu/program.hpp"
 #include "util/debug.hpp"
 #include "util/log.hpp"
@@ -28,11 +27,6 @@ void Machine::reset(emu::Program const& program)
   std::copy(std::begin(fontset), std::end(fontset), memory);
   std::copy(program.begin(), program.end(), memory + 512);
   logging::debug("Program is: \n{}", debug::dump_memory(program.content.data(), program.size()));
-}
-
-void Machine::input(Ptr<Input> input)
-{
-  input->update(this->key);
 }
 
 bool Machine::cycle(bool sanitize)
@@ -86,7 +80,6 @@ bool Machine::execute(uint16_t opcode)
   uint8_t op = (opcode & 0xF000) >> 12;
   uint16_t arg = opcode & 0x0FFF;
 
-  // if (op != 0)
   logging::trace("pc={:x}, opcode={:>04X},op={:0X}, arg={:>03X}", pc, opcode, op, arg);
 
   switch (op)

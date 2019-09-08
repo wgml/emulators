@@ -1,6 +1,6 @@
 #pragma once
 #include "emu/chip8/machine.hpp"
-#include "io/display.hpp"
+#include "io/video.hpp"
 #include "util/ptr.hpp"
 
 namespace emu::chip8 {

@@ -2,7 +2,7 @@
 
 namespace emu::chip8 {
 
-void Input::update(uint8_t (&key)[16])
+void Input::update(Machine& machine)
 {
   constexpr io::Keys mapping[16] = {io::Keys::Num1,
                                     io::Keys::Num2,
@@ -22,6 +22,6 @@ void Input::update(uint8_t (&key)[16])
                                     io::Keys::V};
 
   for (std::size_t k = 0; k < 16; ++k)
-    key[k] = keys->isPressed(mapping[k]);
+    machine.key[k] = keys->isPressed(mapping[k]);
 }
 }  // namespace emu::chip8

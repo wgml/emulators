@@ -1,5 +1,6 @@
 #pragma once
-#include "io/display.hpp"
+#include "emu/chip8/machine.hpp"
+#include "io/keyboard.hpp"
 #include "util/ptr.hpp"
 
 namespace emu::chip8 {
@@ -8,7 +9,7 @@ struct Input
   explicit Input(Ptr<io::KeysInput> keys) : keys(keys)
   {}
 
-  void update(uint8_t (&key)[16]);
+  void update(Machine& machine);
 
 private:
   Ptr<io::KeysInput> keys;

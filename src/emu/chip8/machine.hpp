@@ -1,6 +1,4 @@
 #pragma once
-#include "emu/chip8/input.hpp"
-#include "emu/clock.hpp"
 #include "emu/program.hpp"
 #include "util/debug.hpp"
 #include "util/log.hpp"
@@ -33,7 +31,6 @@ struct Machine
 
   bool cycle(bool sanitize);
   void reset(emu::Program const& program);
-  void input(Ptr<Input>);
 
 private:
   uint16_t opcode() const;

@@ -2,6 +2,7 @@
 #include "emu/chip8/display.hpp"
 #include "emu/chip8/input.hpp"
 #include "emu/chip8/machine.hpp"
+#include "emu/clock/clock.hpp"
 #include "util/ptr.hpp"
 
 namespace emu::chip8 {

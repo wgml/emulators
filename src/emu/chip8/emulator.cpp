@@ -23,7 +23,7 @@ int Emulator::operator()(bool sanitize)
     if (std::exchange(machine.sound, false))
       logging::info("beep");
 
-    machine.input(input);
+    input->update(machine);
   }
 
   logging::info("Emulation stopped after {} frames.", clock->ticksFromStart());
