@@ -4,7 +4,7 @@ namespace emu::chip8 {
 Emulator::Emulator(Ptr<Display> display, Ptr<Input> input, Ptr<Clock> clock, Program const& program)
   : display(display), input(input), clock(clock)
 {
-  machine.reset(program);
+  machine.reset(program, &random);
 }
 
 int Emulator::operator()(bool sanitize)

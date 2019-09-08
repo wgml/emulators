@@ -23,11 +23,14 @@ struct Pixel
 
 using Color = Pixel;
 
+namespace colors {
 constexpr Color const White = Color{255, 255, 255};
 constexpr Color const Red = Color{255, 0, 0};
 constexpr Color const Green = Color{0, 255, 0};
 constexpr Color const Blue = Color{0, 0, 255};
 constexpr Color const Black = Color{0, 0, 0};
+constexpr Color const Gray = Color{105, 105, 105};
+}  // namespace colors
 
 struct ConsoleScreen
 {

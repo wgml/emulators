@@ -10,13 +10,15 @@
 #include <algorithm>
 
 namespace emu::chip8 {
-void Machine::reset(emu::Program const& program)
+void Machine::reset(emu::Program const& program, Ptr<Random<uint8_t>> rd)
 {
   pc = 0x200;
   I = 0;
   sp = 0;
 
   redraw = true;
+
+  randomDevice = rd;
 
   mem::zero(memory);
   mem::zero(V);
@@ -62,12 +64,6 @@ bool Machine::unsupported(uint16_t opcode)
 {
   logging::warn("Unsupported opcode: {:x}", opcode);
   return false;
-}
-
-uint8_t Machine::random()
-{
-  logging::warn("how do I generate random?");
-  return pc & 0xFF;
 }
 
 bool Machine::wait()
@@ -283,7 +279,7 @@ bool Machine::execute(uint16_t opcode)
     {
       uint8_t x = (arg & 0xF00) >> 8;
       uint8_t value = arg & 0xFF;
-      uint8_t r = random();
+      uint8_t r = (*randomDevice)();
 
       V[x] = value & r;
 

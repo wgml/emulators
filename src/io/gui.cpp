@@ -43,8 +43,8 @@ void Display::renderConsole()
   SDL_Rect consoleBox = dim.console;
   SDL_Rect consoleWrap = dim.console.border(10);
 
-  render::rectangle(renderer, consoleWrap, White);
-  render::rectangle(renderer, consoleBox, Black);
+  render::rectangle(renderer, consoleWrap, colors::White);
+  render::rectangle(renderer, consoleBox, colors::Gray);
 
   renderPixels();
 }

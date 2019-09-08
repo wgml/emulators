@@ -1,5 +1,6 @@
 #pragma once
 #include "emu/program.hpp"
+#include "emu/random.hpp"
 #include "util/debug.hpp"
 #include "util/log.hpp"
 #include "util/ptr.hpp"
@@ -30,16 +31,17 @@ struct Machine
   bool sound = true;
 
   bool cycle(bool sanitize);
-  void reset(emu::Program const& program);
+  void reset(emu::Program const& program, Ptr<Random<uint8_t>> randomDevice);
 
 private:
   uint16_t opcode() const;
   void clearDisplay();
   bool unsupported(uint16_t opcode);
-  uint8_t random();
   bool wait();
   bool execute(uint16_t opcode);
   void dump_state() const;
+
+  Ptr<Random<uint8_t>> randomDevice;
 
   constexpr static unsigned char fontset[80] = {
     0xF0, 0x90, 0x90, 0x90, 0xF0,  // 0

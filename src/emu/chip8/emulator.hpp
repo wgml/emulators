@@ -3,6 +3,7 @@
 #include "emu/chip8/input.hpp"
 #include "emu/chip8/machine.hpp"
 #include "emu/clock/clock.hpp"
+#include "emu/random.hpp"
 #include "util/ptr.hpp"
 
 namespace emu::chip8 {
@@ -22,6 +23,7 @@ private:
   Ptr<Display> display;
   Ptr<Input> input;
   Ptr<Clock> clock;
+  Random<uint8_t> random;
 
   std::atomic_bool stopFlag = false;
 };
