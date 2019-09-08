@@ -21,6 +21,9 @@ include_directories(src)
 set(PROJECT_MAIN "${CMAKE_CURRENT_SOURCE_DIR}/src/main.cpp")
 
 set(PROJECT_SOURCES
+  "${CMAKE_CURRENT_SOURCE_DIR}/src/emu/chip8/display.cpp"
+  "${CMAKE_CURRENT_SOURCE_DIR}/src/emu/chip8/emulator.cpp"
+  "${CMAKE_CURRENT_SOURCE_DIR}/src/emu/chip8/machine.cpp"
   "${CMAKE_CURRENT_SOURCE_DIR}/src/util/configuration.cpp"
   "${CMAKE_CURRENT_SOURCE_DIR}/src/util/debug.cpp"
   "${CMAKE_CURRENT_SOURCE_DIR}/src/util/log.cpp"
