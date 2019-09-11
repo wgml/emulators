@@ -1,8 +1,8 @@
 #include "emu/chip8/emulator.hpp"
 
 namespace emu::chip8 {
-Emulator::Emulator(Ptr<Display> display, Ptr<Input> input, Ptr<Clock> clock, Program const& program)
-  : display(display), input(input), clock(clock)
+Emulator::Emulator(Ptr<Display> display, Ptr<Audio> audio, Ptr<Input> input, Ptr<Clock> clock, Program const& program)
+  : display(display), audio(audio), input(input), clock(clock)
 {
   machine.reset(program, &random);
 }
@@ -20,9 +20,7 @@ int Emulator::operator()(bool sanitize)
     if (std::exchange(machine.redraw, false))
       display->draw(machine);
 
-    if (std::exchange(machine.sound, false))
-      logging::info("beep");
-
+    audio->update(machine);
     input->update(machine);
   }
 

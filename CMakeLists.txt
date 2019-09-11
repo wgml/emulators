@@ -21,12 +21,14 @@ include_directories(src)
 set(PROJECT_MAIN "${CMAKE_CURRENT_SOURCE_DIR}/src/main.cpp")
 
 set(PROJECT_SOURCES
+  "${CMAKE_CURRENT_SOURCE_DIR}/src/emu/chip8/audio.cpp"
   "${CMAKE_CURRENT_SOURCE_DIR}/src/emu/chip8/display.cpp"
   "${CMAKE_CURRENT_SOURCE_DIR}/src/emu/chip8/emulator.cpp"
   "${CMAKE_CURRENT_SOURCE_DIR}/src/emu/chip8/input.cpp"
   "${CMAKE_CURRENT_SOURCE_DIR}/src/emu/chip8/machine.cpp"
   "${CMAKE_CURRENT_SOURCE_DIR}/src/emu/clock/clock.cpp"
   "${CMAKE_CURRENT_SOURCE_DIR}/src/emu/program.cpp"
+  "${CMAKE_CURRENT_SOURCE_DIR}/src/io/audio.cpp"
   "${CMAKE_CURRENT_SOURCE_DIR}/src/io/gui.cpp"
   "${CMAKE_CURRENT_SOURCE_DIR}/src/io/render.cpp"
   "${CMAKE_CURRENT_SOURCE_DIR}/src/io/video.cpp"

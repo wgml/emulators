@@ -1,5 +1,6 @@
 #pragma once
 
+#include "io/audio.hpp"
 #include "io/keyboard.hpp"
 #include "io/video.hpp"
 #include "util/ptr.hpp"
@@ -30,6 +31,11 @@ struct Display
     return &keys;
   }
 
+  Ptr<Audio> audio()
+  {
+    return &consoleAudio;
+  }
+
 private:
   void renderConsole();
 
@@ -42,6 +48,7 @@ private:
 
   ConsoleScreen consoleScreen;
   KeysInput keys;
+  Audio consoleAudio;
 
   struct
   {

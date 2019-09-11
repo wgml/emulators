@@ -1,4 +1,5 @@
 #pragma once
+#include "emu/chip8/audio.hpp"
 #include "emu/chip8/display.hpp"
 #include "emu/chip8/input.hpp"
 #include "emu/chip8/machine.hpp"
@@ -10,7 +11,7 @@ namespace emu::chip8 {
 
 struct Emulator
 {
-  explicit Emulator(Ptr<Display> display, Ptr<Input> input, Ptr<Clock> clock, Program const& program);
+  explicit Emulator(Ptr<Display> display, Ptr<Audio> audio, Ptr<Input> input, Ptr<Clock> clock, Program const& program);
   int operator()(bool sanitize);
 
   void stop()
@@ -21,6 +22,7 @@ struct Emulator
 private:
   Machine machine;
   Ptr<Display> display;
+  Ptr<Audio> audio;
   Ptr<Input> input;
   Ptr<Clock> clock;
   Random<uint8_t> random;

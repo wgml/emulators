@@ -41,11 +41,8 @@ bool Machine::cycle(bool sanitize)
     --delayTimer;
 
   if (soundTimer > 0)
-  {
-    if (soundTimer == 1)
-      sound = true;
     --soundTimer;
-  }
+  sound = soundTimer != 0;
 
   return true;
 }
@@ -380,6 +377,7 @@ bool Machine::execute(uint16_t opcode)
         case 0x18:
         {
           soundTimer = V[x];
+          logging::debug("Setting sound timer to {}", soundTimer);
           break;
         }
         case 0x1E:
