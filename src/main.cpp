@@ -17,7 +17,7 @@ int main(int argc, char* argv[])
   logging::info("I'm working with #{} args", argc);
 
   auto display = std::make_unique<io::Display>(64, 32);
-  auto program = emu::Program::read(conf.rom);
+  auto program = emu::Program::read(conf.emulation.rom);
 
   auto emuDisplay = std::make_unique<emu::chip8::Display>(display->screen());
   auto emuAudio = std::make_unique<emu::chip8::Audio>(display->audio());
@@ -26,13 +26,19 @@ int main(int argc, char* argv[])
   auto clock = std::make_unique<emu::Clock>(60_Hz, "emulator");
 
   emu::chip8::Emulator emulator(emuDisplay, emuAudio, emuInput, clock, program);
-  std::thread emuThread{[&emulator] { emulator(true); }};
+  std::thread emuThread{[&emulator, sanitize = conf.emulation.sanitize] { emulator(sanitize); }};
 
   auto guiClock = std::make_unique<emu::Clock>(60_Hz, "interface");
   while (!display->closed())
   {
     guiClock->tick();
     display->frame();
+
+    if (emulator.stopped())
+    {
+      logging::info("Exiting, as there is no emulation in progress.");
+      break;
+    }
   }
 
   emulator.stop();

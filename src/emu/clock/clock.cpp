@@ -8,6 +8,7 @@ namespace emu {
 Clock::Clock(Frequency f, std::string const& name) : freq(f), name(name)
 {
   reset();
+  logging::info("[{}] Running with {}tps.", name, freq.hertz);
 }
 
 void Clock::reset()

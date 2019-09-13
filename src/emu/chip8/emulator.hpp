@@ -19,6 +19,11 @@ struct Emulator
     stopFlag = true;
   }
 
+  bool stopped() const
+  {
+    return stopFlag;
+  }
+
 private:
   Machine machine;
   Ptr<Display> display;

@@ -24,6 +24,7 @@ int Emulator::operator()(bool sanitize)
     input->update(machine);
   }
 
+  stopFlag = true;
   logging::info("Emulation stopped after {} frames.", clock->ticksFromStart());
   return 0;
 }

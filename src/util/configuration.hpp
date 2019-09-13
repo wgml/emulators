@@ -9,7 +9,11 @@ struct Configuration
   bool verbose = false;
   bool trace = false;
 
-  std::string rom;
+  struct
+  {
+    bool sanitize = false;
+    std::string rom;
+  } emulation;
 };
 
 Configuration parse_args(int argc, char* argv[]);

@@ -34,8 +34,22 @@ void Machine::reset(emu::Program const& program, Ptr<Random<uint8_t>> rd)
 bool Machine::cycle(bool sanitize)
 {
   uint16_t op = opcode();
-  if (auto res = execute(op); !res && sanitize)
-    return false;
+  try
+  {
+    if (auto res = execute(op); !res && sanitize)
+      return false;
+  }
+  catch (std::exception const& ex)
+  {
+    logging::error("Emulation failed because of {}. [pc={:#0x},opcode={:#0x}]", ex.what(), pc, op);
+    logging::debug("I={:#0x}", I);
+    logging::debug("sp={:#0x}, stack=\n{}", sp, debug::dump_memory(stack));
+    logging::debug("V=\n{}", debug::dump_memory(V));
+    logging::debug("memory=\n{}", debug::dump_memory(memory));
+
+    if (sanitize)
+      return false;
+  }
 
   if (delayTimer > 0)
     --delayTimer;
@@ -424,22 +438,5 @@ bool Machine::execute(uint16_t opcode)
   }
 
   return true;
-}
-
-void Machine::dump_state() const
-{
-  printf("------------------------------------------------------------------\n");
-  printf("\n");
-
-  printf("V0: 0x%02x  V4: 0x%02x  V8: 0x%02x  VC: 0x%02x\n", V[0], V[4], V[8], V[12]);
-  printf("V1: 0x%02x  V5: 0x%02x  V9: 0x%02x  VD: 0x%02x\n", V[1], V[5], V[9], V[13]);
-  printf("V2: 0x%02x  V6: 0x%02x  VA: 0x%02x  VE: 0x%02x\n", V[2], V[6], V[10], V[14]);
-  printf("V3: 0x%02x  V7: 0x%02x  VB: 0x%02x  VF: 0x%02x\n", V[3], V[7], V[11], V[15]);
-
-  printf("I: 0x%04x", I);
-  printf("\n");
-  printf("PC: 0x%04x OP: 0x%04x\n", pc, opcode());
-  printf("\n");
-  printf("\n");
 }
 }  // namespace emu::chip8

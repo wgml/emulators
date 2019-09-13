@@ -47,7 +47,8 @@ Configuration parse_args(int argc, char* argv[])
     ("help,h", "produce help message and exit.")
     ("verbose,v", "Be more verbose in logs.")
     ("trace,t", "Trace emulator execution.")
-    ("rom", po::value<std::string>(), "ROM to load.");
+    ("rom", po::value<std::string>(), "ROM to load.")
+    ("sanitize", "Sanitize emulation, break on failure.");
   // clang-format on
 
   po::variables_map vm;
@@ -65,7 +66,10 @@ Configuration parse_args(int argc, char* argv[])
   if (vm.count("trace"))
     conf.trace = true;
 
-  conf.rom = get_required<std::string>(desc, vm, "rom");
+  conf.emulation.rom = get_required<std::string>(desc, vm, "rom");
+
+  if (vm.count("sanitize"))
+    conf.emulation.sanitize = true;
 
   return conf;
 }
