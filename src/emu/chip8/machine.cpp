@@ -26,8 +26,8 @@ void Machine::reset(emu::Program const& program, Ptr<Random<uint8_t>> rd)
   mem::zero(stack);
   mem::zero(key);
 
-  std::copy(std::begin(fontset), std::end(fontset), memory);
-  std::copy(program.begin(), program.end(), memory + 512);
+  std::copy(std::begin(fontset), std::end(fontset), memory.begin());
+  std::copy(program.begin(), program.end(), std::next(memory.begin(), 512));
   logging::debug("Program is: \n{}", debug::dump_memory(program.content.data(), program.size()));
 }
 

@@ -28,7 +28,7 @@ int main(int argc, char* argv[])
   emu::chip8::Emulator emulator(emuDisplay, emuAudio, emuInput, clock, program);
   std::thread emuThread{[&emulator] { emulator(true); }};
 
-  auto guiClock = std::make_unique<emu::Clock>(144_Hz, "interface");
+  auto guiClock = std::make_unique<emu::Clock>(60_Hz, "interface");
   while (!display->closed())
   {
     guiClock->tick();

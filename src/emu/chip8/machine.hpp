@@ -10,22 +10,22 @@
 namespace emu::chip8 {
 struct Machine
 {
-  uint8_t memory[4096];
+  mem::array<uint8_t, 4096> memory;
 
-  uint8_t V[16];
+  mem::array<uint8_t, 16> V;
 
   uint16_t I;
   uint16_t pc;
 
-  uint8_t display[64 * 32];
+  mem::array<uint8_t, 64 * 32> display;
 
   uint8_t delayTimer;
   uint8_t soundTimer;
 
-  uint16_t stack[16];
+  mem::array<uint16_t, 16> stack;
   uint16_t sp;
 
-  uint8_t key[16];
+  mem::array<uint8_t, 16> key;
 
   bool redraw = false;
   bool sound = true;

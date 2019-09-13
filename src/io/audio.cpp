@@ -31,10 +31,9 @@ Audio::Audio() : active(false), currentFreq(0_Hz)
 
   SDL_AudioSpec obtainedSpec;
 
-  // you might want to look for errors here
-  SDL_OpenAudio(&desiredSpec, &obtainedSpec);
+  if (SDL_OpenAudio(&desiredSpec, &obtainedSpec) < 0)
+    logging::error("Failed to init audio: {}", SDL_GetError());
 
-  // start play audio
   SDL_PauseAudio(0);
 }
 
@@ -73,10 +72,8 @@ void Audio::generate(std::int16_t* stream, int length)
     return;
   }
 
+  double const inc = 2. * M_PI * freq.hertz / currentFreq.hertz;
   for (int i = 0; i < length; ++i)
-  {
-    double time = 1. * i / currentFreq.hertz;
-    stream[i] = amp * std::sin(2. * M_PI * freq.hertz * time);
-  }
+    stream[i] = amp * std::sin(i * inc);
 }
 }  // namespace io
