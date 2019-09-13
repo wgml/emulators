@@ -1,6 +1,8 @@
 #pragma once
 
 #include <SDL2/SDL_keycode.h>
+#include <functional>
+#include <map>
 #include <set>
 
 namespace io {
@@ -46,6 +48,8 @@ enum class Keys : SDL_Keycode
 
 struct KeysInput
 {
+  using Callback = std::function<void()>;
+
   bool isPressed(Keys key)
   {
     return active.count(static_cast<SDL_Keycode>(key)) != 0;
@@ -59,9 +63,18 @@ struct KeysInput
   void released(SDL_Keycode const& key)
   {
     active.erase(key);
+    if (auto it = callbacks.find(static_cast<Keys>(key)); it != callbacks.end())
+      it->second();
+  }
+
+  void onRelease(Keys key, Callback f)
+  {
+    callbacks.emplace(key, std::move(f));
   }
 
 private:
   std::set<SDL_Keycode> active;
+
+  std::map<Keys, Callback> callbacks;
 };
 }  // namespace io

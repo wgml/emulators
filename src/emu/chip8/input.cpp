@@ -24,4 +24,10 @@ void Input::update(Machine& machine)
   for (std::size_t k = 0; k < 16; ++k)
     machine.key[k] = keys->isPressed(mapping[k]);
 }
+
+void Input::PauseControl::update()
+{
+  logging::debug("Callback for pause invoked. active={}", active);
+  active = !active;
+}
 }  // namespace emu::chip8

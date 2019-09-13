@@ -14,7 +14,9 @@ int Emulator::operator()(bool sanitize)
   {
     clock->tick();
 
-    if (auto res = machine.cycle(sanitize); !res && sanitize)
+    if (input->paused())
+      logging::trace("Execution paused.");
+    else if (auto res = machine.cycle(sanitize); !res && sanitize)
       break;
 
     if (std::exchange(machine.redraw, false))
