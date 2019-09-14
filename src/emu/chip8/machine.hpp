@@ -1,4 +1,6 @@
 #pragma once
+#include "emu/chip8/instruction.hpp"
+#include "emu/chip8/machine_fwd.hpp"
 #include "emu/program.hpp"
 #include "emu/random.hpp"
 #include "util/debug.hpp"
@@ -11,6 +13,7 @@ namespace emu::chip8 {
 struct Machine
 {
   mem::array<uint8_t, 4096> memory;
+  mem::array<op::Instruction, (4096 - 512) / 2> instructions;
 
   mem::array<uint8_t, 16> V;
 
@@ -32,14 +35,17 @@ struct Machine
 
   bool cycle(bool sanitize);
   void reset(emu::Program const& program, Ptr<Random<uint8_t>> randomDevice);
+  void clearDisplay();
+
+  Random<uint8_t>& random()
+  {
+    return *randomDevice;
+  }
 
 private:
-  uint16_t opcode() const;
-  void clearDisplay();
-  bool unsupported(uint16_t opcode);
-  bool wait();
-  bool execute(uint16_t opcode);
-  void dump_state() const;
+  void parseInstructions();
+
+  void execute();
 
   Ptr<Random<uint8_t>> randomDevice;
 

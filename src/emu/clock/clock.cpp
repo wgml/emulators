@@ -5,7 +5,8 @@
 #include <thread>
 
 namespace emu {
-Clock::Clock(Frequency f, std::string const& name) : freq(f), name(name)
+Clock::Clock(Frequency f, std::string const& name, util::Configuration const& conf)
+  : freq(f), name(name), spin(conf.emulation.spin)
 {
   reset();
   logging::info("[{}] Running with {}tps.", name, freq.hertz);
@@ -21,22 +22,29 @@ void Clock::reset()
 void Clock::tick()
 {
   auto nextTick = last + freq.interval();
-  if (nextTick < last)
-    logging::warn(
+  auto const now = SysClock::now();
+  if (nextTick < now)
+    logging::trace(
       "Next tick is in the past, lagging {}ns behind",
       std::chrono::duration_cast<std::chrono::nanoseconds>(last - nextTick).count());
-  else
+
+  if (spin)
+    while (SysClock::now() < nextTick)
+    {
+    }
+  else if (nextTick > now)
     std::this_thread::sleep_until(nextTick);
-  last = nextTick;
+
+  last = SysClock::now();
   ++ticks;
 
   if (ticks % freq.hertz == 0)
   {
     auto runtime = std::chrono::duration_cast<std::chrono::duration<double>>(last - start);
     double freq = ticks / runtime.count();
-    logging::debug("[{}] done {} ticks in {} seconds (freq is {}Hz)", name, ticks, runtime.count(), freq);
+    logging::info("[{}] done {} ticks in {} seconds (freq is {:f}Hz)", name, ticks, runtime.count(), freq);
   }
-}
+}  // namespace emu
 
 std::size_t Clock::ticksFromStart() const
 {

@@ -25,6 +25,7 @@ set(PROJECT_SOURCES
   "${CMAKE_CURRENT_SOURCE_DIR}/src/emu/chip8/display.cpp"
   "${CMAKE_CURRENT_SOURCE_DIR}/src/emu/chip8/emulator.cpp"
   "${CMAKE_CURRENT_SOURCE_DIR}/src/emu/chip8/input.cpp"
+  "${CMAKE_CURRENT_SOURCE_DIR}/src/emu/chip8/instruction.cpp"
   "${CMAKE_CURRENT_SOURCE_DIR}/src/emu/chip8/machine.cpp"
   "${CMAKE_CURRENT_SOURCE_DIR}/src/emu/clock/clock.cpp"
   "${CMAKE_CURRENT_SOURCE_DIR}/src/emu/program.cpp"

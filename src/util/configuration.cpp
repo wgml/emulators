@@ -48,7 +48,8 @@ Configuration parse_args(int argc, char* argv[])
     ("verbose,v", "Be more verbose in logs.")
     ("trace,t", "Trace emulator execution.")
     ("rom", po::value<std::string>(), "ROM to load.")
-    ("sanitize", "Sanitize emulation, break on failure.");
+    ("sanitize", "Sanitize emulation, break on failure.")
+    ("spin", "Use spin locks for time manipulation.");
   // clang-format on
 
   po::variables_map vm;
@@ -70,6 +71,9 @@ Configuration parse_args(int argc, char* argv[])
 
   if (vm.count("sanitize"))
     conf.emulation.sanitize = true;
+
+  if (vm.count("spin"))
+    conf.emulation.spin = true;
 
   return conf;
 }

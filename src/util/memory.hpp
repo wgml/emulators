@@ -44,9 +44,9 @@ private:
 };
 
 template<typename T, std::size_t N>
-void zero(array<T, N>& array)
+void zero(array<T, N>& array, T const& e = 0)
 {
-  std::fill(array.begin(), array.end(), 0);
+  std::fill(array.begin(), array.end(), e);
 }
 
 template<typename T, std::size_t N>

@@ -44,7 +44,7 @@ Audio::~Audio()
 
 void Audio::beep(emu::Frequency f)
 {
-  logging::info("Beep for {}Hz registered", f.hertz);
+  logging::debug("Beep for {}Hz registered", f.hertz);
   SDL_LockAudio();
   {
     currentFreq = f;
@@ -61,7 +61,7 @@ void Audio::endBeep()
     active = false;
   }
   SDL_UnlockAudio();
-  logging::info("Beep done");
+  logging::debug("Beep done");
 }
 
 void Audio::generate(std::int16_t* stream, int length)

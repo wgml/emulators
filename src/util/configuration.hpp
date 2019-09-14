@@ -13,6 +13,7 @@ struct Configuration
   {
     bool sanitize = false;
     std::string rom;
+    bool spin = false;
   } emulation;
 };
 
