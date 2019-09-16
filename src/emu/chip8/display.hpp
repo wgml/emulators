@@ -1,5 +1,4 @@
 #pragma once
-#include "emu/chip8/machine.hpp"
 #include "io/video.hpp"
 #include "util/ptr.hpp"
 
@@ -10,7 +9,9 @@ struct Display
   explicit Display(Ptr<io::ConsoleScreen> screen) : screen(screen)
   {}
 
-  void draw(Machine const& machine);
+  void clear();
+
+  bool flip(std::size_t row, std::size_t col);
 
 private:
   Ptr<io::ConsoleScreen> screen;

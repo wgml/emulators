@@ -16,7 +16,7 @@ auto noop()
 
 auto cls()
 {
-  auto op = [](Machine& m) { m.clearDisplay(); };
+  auto op = [](Machine& m) { m.disp().clear(); };
 
   return Instruction{false, std::move(op)};
 }
@@ -282,14 +282,9 @@ auto draw(uint16_t arg)
         uint8_t pixel = value & (0x80 >> col);
         if (!pixel)
           continue;
-
-        auto displayPosition = col + x + (y + row) * 64;
-        VF |= m.display[displayPosition];
-        m.display[displayPosition] ^= 1;
+        VF |= m.disp().flip(row + y, col + x);
       }
     }
-
-    m.redraw = true;
   };
 
   return Instruction{false, std::move(op)};

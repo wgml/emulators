@@ -1,6 +1,7 @@
 #pragma once
 #include "emu/chip8/instruction.hpp"
 #include "emu/chip8/machine_fwd.hpp"
+#include "emu/chip8/display.hpp"
 #include "emu/program.hpp"
 #include "emu/random.hpp"
 #include "util/debug.hpp"
@@ -20,8 +21,6 @@ struct Machine
   uint16_t I;
   uint16_t pc;
 
-  mem::array<uint8_t, 64 * 32> display;
-
   uint8_t delayTimer;
   uint8_t soundTimer;
 
@@ -30,11 +29,10 @@ struct Machine
 
   mem::array<uint8_t, 16> key;
 
-  bool redraw = false;
   bool sound = true;
 
   bool cycle(bool sanitize);
-  void reset(emu::Program const& program, Ptr<Random<uint8_t>> randomDevice);
+  void reset(emu::Program const& program, Ptr<Random<uint8_t>> randomDevice, Ptr<Display> display);
   void clearDisplay();
 
   Random<uint8_t>& random()
@@ -42,12 +40,19 @@ struct Machine
     return *randomDevice;
   }
 
+  Display& disp()
+  {
+    return *display;
+  }
+
+
 private:
   void parseInstructions();
 
   void execute();
 
   Ptr<Random<uint8_t>> randomDevice;
+  Ptr<Display> display;
 
   constexpr static unsigned char fontset[80] = {
     0xF0, 0x90, 0x90, 0x90, 0xF0,  // 0

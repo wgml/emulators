@@ -23,7 +23,7 @@ int main(int argc, char* argv[])
   auto emuAudio = std::make_unique<emu::chip8::Audio>(display->audio());
   auto emuInput = std::make_unique<emu::chip8::Input>(display->input());
 
-  auto clock = std::make_unique<emu::Clock>(10000_Hz, "emulator", conf);
+  auto clock = std::make_unique<emu::Clock>(60_Hz, "emulator", conf);
 
   emu::chip8::Emulator emulator(emuDisplay, emuAudio, emuInput, clock, program);
   std::thread emuThread{[&emulator, sanitize = conf.emulation.sanitize] { emulator(sanitize); }};

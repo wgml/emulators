@@ -14,20 +14,17 @@ namespace emu::chip8 {
 namespace op {
 }
 
-void Machine::reset(emu::Program const& program, Ptr<Random<uint8_t>> rd)
+void Machine::reset(emu::Program const& program, Ptr<Random<uint8_t>> rd, Ptr<Display> disp)
 {
   pc = 0x200;
   I = 0;
   sp = 0;
 
-  redraw = true;
-
   randomDevice = rd;
+  display = disp;
 
   mem::zero(memory);
-  // mem::zero(instructions);
   mem::zero(V);
-  mem::zero(display);
   mem::zero(stack);
   mem::zero(key);
 
@@ -74,11 +71,6 @@ bool Machine::cycle(bool sanitize)
   sound = soundTimer != 0;
 
   return true;
-}
-
-void Machine::clearDisplay()
-{
-  mem::zero(display);
 }
 
 void Machine::execute()
